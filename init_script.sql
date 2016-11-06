@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTs javarushinterndb COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTs test COLLATE utf8_general_ci;
 
-USE javarushinterndb;
+USE test;
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE USER(
