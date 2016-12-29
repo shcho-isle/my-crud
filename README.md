@@ -1,0 +1,2 @@
+# TestTaskForRealProject
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b4170b9a5c1b415abf3bee95e0ac55f6)](https://www.codacy.com/app/pavlo-plynko/TestTaskForRealProject?utm_source=github.com&utm_medium=referral&utm_content=shcho-isle/TestTaskForRealProject&utm_campaign=badger)
