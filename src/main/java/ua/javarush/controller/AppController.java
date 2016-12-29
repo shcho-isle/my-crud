@@ -41,21 +41,22 @@ public class AppController {
 	public String listUsers(ModelMap model, @RequestParam(required = false) Integer page) {
 
 		List<User> users = service.findAllUsers();
+		Integer currentPage = page;
 
         PagedListHolder<User> pagedListHolder = new PagedListHolder<User>(users);
         pagedListHolder.setPageSize(MAX_ROWS_PER_PAGE);
         model.addAttribute("maxPages", pagedListHolder.getPageCount());
 
-        if(page == null || page < 1 || page > pagedListHolder.getPageCount()){
-            page=1;
+        if(currentPage == null || currentPage < 1 || currentPage > pagedListHolder.getPageCount()){
+            currentPage=1;
         }
-        model.addAttribute("page", page);
-        if(page < 1 || page > pagedListHolder.getPageCount()){
+        model.addAttribute("page", currentPage);
+        if(currentPage < 1 || currentPage > pagedListHolder.getPageCount()){
             pagedListHolder.setPage(0);
             model.addAttribute("users", pagedListHolder.getPageList());
         }
-        else if(page <= pagedListHolder.getPageCount()) {
-            pagedListHolder.setPage(page-1);
+        else if(currentPage <= pagedListHolder.getPageCount()) {
+            pagedListHolder.setPage(currentPage - 1);
             model.addAttribute("users", pagedListHolder.getPageList());
         }
 
