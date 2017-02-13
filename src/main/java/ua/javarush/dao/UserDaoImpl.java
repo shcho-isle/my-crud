@@ -14,38 +14,38 @@ import ua.javarush.model.User;
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
-	public User findById(int id) {
-		return getByKey(id);
-	}
+    public User findById(int id) {
+        return getByKey(id);
+    }
 
-	public void saveUser(User user) {
-		persist(user);
-	}
+    public void saveUser(User user) {
+        persist(user);
+    }
 
-	public void deleteUserByName(String name) {
-		Query query = getSession().createSQLQuery("delete from USER where name = :name");
-		query.setString("name", name);
-		query.executeUpdate();
-	}
+    public void deleteUserByName(String name) {
+        Query query = getSession().createSQLQuery("delete from USER where name = :name");
+        query.setString("name", name);
+        query.executeUpdate();
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<User> findAllUsers() {
-		Criteria criteria = createEntityCriteria();
-		return (List<User>) criteria.list();
-	}
+    @SuppressWarnings("unchecked")
+    public List<User> findAllUsers() {
+        Criteria criteria = createEntityCriteria();
+        return (List<User>) criteria.list();
+    }
 
-	public User findUserByName(String name) {
-		Criteria criteria = createEntityCriteria();
-		criteria.add(Restrictions.eq("name", name));
-		return (User) criteria.uniqueResult();
-	}
+    public User findUserByName(String name) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("name", name));
+        return (User) criteria.uniqueResult();
+    }
 
     @SuppressWarnings("unchecked")
     public List<User> findUsersByName(String userName) {
-        String query = "SELECT t.* FROM User t WHERE t.name like '%"+ userName +"%'";
+        String query = "SELECT t.* FROM User t WHERE t.name like '%" + userName + "%'";
         List<Object[]> userObjects = fetchAll(query);
         List<User> users = new ArrayList<>();
-        for(Object[] userObject: userObjects) {
+        for (Object[] userObject : userObjects) {
             User user = new User();
             int id = (int) userObject[0];
             String name = (String) userObject[1];

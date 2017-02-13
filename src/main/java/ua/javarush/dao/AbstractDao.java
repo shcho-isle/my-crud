@@ -11,40 +11,40 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractDao<K extends Serializable, T> {
-	
-	private final Class<T> persistentClass;
 
-	@Autowired
-	private SessionFactory sessionFactory;
+    private final Class<T> persistentClass;
 
-	@SuppressWarnings("unchecked")
-	public AbstractDao(){
-		this.persistentClass =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-	}
-	
-	protected Session getSession(){
-		return sessionFactory.getCurrentSession();
-	}
+    @Autowired
+    private SessionFactory sessionFactory;
 
-	@SuppressWarnings("unchecked")
-	public T getByKey(K key) {
-		return (T) getSession().get(persistentClass, key);
-	}
+    @SuppressWarnings("unchecked")
+    public AbstractDao() {
+        this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+    }
 
-	public void persist(T entity) {
-		getSession().persist(entity);
-	}
+    protected Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
-	public void delete(T entity) {
-		getSession().delete(entity);
-	}
-	
-	protected Criteria createEntityCriteria(){
-		return getSession().createCriteria(persistentClass);
-	}
+    @SuppressWarnings("unchecked")
+    public T getByKey(K key) {
+        return (T) getSession().get(persistentClass, key);
+    }
 
-	@SuppressWarnings("rawtypes")
-	public <T> List fetchAll(String query) {
-		return getSession().createSQLQuery(query).list();
-	}
+    public void persist(T entity) {
+        getSession().persist(entity);
+    }
+
+    public void delete(T entity) {
+        getSession().delete(entity);
+    }
+
+    protected Criteria createEntityCriteria() {
+        return getSession().createCriteria(persistentClass);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public <T> List fetchAll(String query) {
+        return getSession().createSQLQuery(query).list();
+    }
 }

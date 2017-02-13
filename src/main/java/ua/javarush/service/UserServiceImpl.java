@@ -13,49 +13,49 @@ import ua.javarush.model.User;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-	private final UserDao dao;
+    private final UserDao dao;
 
-	@Autowired
-	public UserServiceImpl(UserDao dao) {
-		this.dao = dao;
-	}
+    @Autowired
+    public UserServiceImpl(UserDao dao) {
+        this.dao = dao;
+    }
 
-	public User findById(int id) {
-		return dao.findById(id);
-	}
+    public User findById(int id) {
+        return dao.findById(id);
+    }
 
-	public void saveUser(User user) {
-		dao.saveUser(user);
-	}
+    public void saveUser(User user) {
+        dao.saveUser(user);
+    }
 
-	public void updateUser(User user) {
-		User entity = dao.findById(user.getId());
-		if(entity!=null){
-			entity.setName(user.getName());
-			entity.setAge(user.getAge());
-			entity.setAdmin(user.isAdmin());
-		}
-	}
+    public void updateUser(User user) {
+        User entity = dao.findById(user.getId());
+        if (entity != null) {
+            entity.setName(user.getName());
+            entity.setAge(user.getAge());
+            entity.setAdmin(user.isAdmin());
+        }
+    }
 
-	public void deleteUserByName(String name) {
-		dao.deleteUserByName(name);
-	}
-	
-	public List<User> findAllUsers() {
-		return dao.findAllUsers();
-	}
+    public void deleteUserByName(String name) {
+        dao.deleteUserByName(name);
+    }
 
-	public User findUserByName(String name) {
-		return dao.findUserByName(name);
-	}
+    public List<User> findAllUsers() {
+        return dao.findAllUsers();
+    }
 
-	public boolean isUserNameUnique(Integer id, String name) {
-		User user = findUserByName(name);
-		return ( user == null || ((id != null) && (user.getId() == id)));
-	}
+    public User findUserByName(String name) {
+        return dao.findUserByName(name);
+    }
 
-	public List<User> findUsersByName(String userName) {
-		return dao.findUsersByName(userName);
-	}
+    public boolean isUserNameUnique(Integer id, String name) {
+        User user = findUserByName(name);
+        return (user == null || ((id != null) && (user.getId() == id)));
+    }
+
+    public List<User> findUsersByName(String userName) {
+        return dao.findUsersByName(userName);
+    }
 
 }

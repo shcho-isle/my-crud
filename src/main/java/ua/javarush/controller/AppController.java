@@ -25,109 +25,108 @@ import ua.javarush.service.UserService;
 public class AppController {
     private static final int MAX_ROWS_PER_PAGE = 15;
 
-	private final
-	UserService service;
-	
-	private final
-	MessageSource messageSource;
+    private final
+    UserService service;
 
-	@Autowired
-	public AppController(UserService service, MessageSource messageSource) {
-		this.service = service;
-		this.messageSource = messageSource;
-	}
+    private final
+    MessageSource messageSource;
 
-	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	public String listUsers(ModelMap model, @RequestParam(required = false) Integer page) {
+    @Autowired
+    public AppController(UserService service, MessageSource messageSource) {
+        this.service = service;
+        this.messageSource = messageSource;
+    }
 
-		List<User> users = service.findAllUsers();
-		Integer currentPage = page;
+    @RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
+    public String listUsers(ModelMap model, @RequestParam(required = false) Integer page) {
+
+        List<User> users = service.findAllUsers();
+        Integer currentPage = page;
 
         PagedListHolder<User> pagedListHolder = new PagedListHolder<User>(users);
         pagedListHolder.setPageSize(MAX_ROWS_PER_PAGE);
         model.addAttribute("maxPages", pagedListHolder.getPageCount());
 
-        if(currentPage == null || currentPage < 1 || currentPage > pagedListHolder.getPageCount()){
-            currentPage=1;
+        if (currentPage == null || currentPage < 1 || currentPage > pagedListHolder.getPageCount()) {
+            currentPage = 1;
         }
         model.addAttribute("page", currentPage);
-        if(currentPage < 1 || currentPage > pagedListHolder.getPageCount()){
+        if (currentPage < 1 || currentPage > pagedListHolder.getPageCount()) {
             pagedListHolder.setPage(0);
             model.addAttribute("users", pagedListHolder.getPageList());
-        }
-        else if(currentPage <= pagedListHolder.getPageCount()) {
+        } else if (currentPage <= pagedListHolder.getPageCount()) {
             pagedListHolder.setPage(currentPage - 1);
             model.addAttribute("users", pagedListHolder.getPageList());
         }
 
-		return "allusers";
-	}
+        return "allusers";
+    }
 
-	@RequestMapping(value = { "/new" }, method = RequestMethod.GET)
-	public String newUser(ModelMap model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "registration";
-	}
+    @RequestMapping(value = {"/new"}, method = RequestMethod.GET)
+    public String newUser(ModelMap model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "registration";
+    }
 
-	@RequestMapping(value = { "/new" }, method = RequestMethod.POST)
-	public String saveUser(@Valid User user, BindingResult result,
-						   ModelMap model) {
+    @RequestMapping(value = {"/new"}, method = RequestMethod.POST)
+    public String saveUser(@Valid User user, BindingResult result,
+                           ModelMap model) {
 
-		if (result.hasErrors()) {
-			return "registration";
-		}
+        if (result.hasErrors()) {
+            return "registration";
+        }
 
-		if(!service.isUserNameUnique(user.getId(), user.getName())){
-			FieldError nameError = new FieldError("user","name",messageSource.getMessage("non.unique.name", new String[]{user.getName()}, Locale.getDefault()));
-		    result.addError(nameError);
-			return "registration";
-		}
-		
-		service.saveUser(user);
+        if (!service.isUserNameUnique(user.getId(), user.getName())) {
+            FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, Locale.getDefault()));
+            result.addError(nameError);
+            return "registration";
+        }
 
-		model.addAttribute("success", "User " + user.getName() + " registered successfully");
-		return "success";
-	}
+        service.saveUser(user);
 
-	@RequestMapping(value = { "/edit-{name}-user" }, method = RequestMethod.GET)
-	public String editUser(@PathVariable String name, ModelMap model) {
-		User user = service.findUserByName(name);
-		model.addAttribute("user", user);
-		return "registration";
-	}
+        model.addAttribute("success", "User " + user.getName() + " registered successfully");
+        return "success";
+    }
 
-	@RequestMapping(value = { "/edit-{name}-user" }, method = RequestMethod.POST)
-	public String updateUser(@Valid User user, BindingResult result,
-							 ModelMap model, @PathVariable String name) {
+    @RequestMapping(value = {"/edit-{name}-user"}, method = RequestMethod.GET)
+    public String editUser(@PathVariable String name, ModelMap model) {
+        User user = service.findUserByName(name);
+        model.addAttribute("user", user);
+        return "registration";
+    }
 
-		if (result.hasErrors()) {
-			return "registration";
-		}
+    @RequestMapping(value = {"/edit-{name}-user"}, method = RequestMethod.POST)
+    public String updateUser(@Valid User user, BindingResult result,
+                             ModelMap model, @PathVariable String name) {
 
-		if(!service.isUserNameUnique(user.getId(), user.getName())){
-			FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, Locale.getDefault()));
-		    result.addError(nameError);
-			return "registration";
-		}
+        if (result.hasErrors()) {
+            return "registration";
+        }
 
-		service.updateUser(user);
+        if (!service.isUserNameUnique(user.getId(), user.getName())) {
+            FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, Locale.getDefault()));
+            result.addError(nameError);
+            return "registration";
+        }
 
-		model.addAttribute("success", "User " + user.getName()	+ " updated successfully");
-		return "success";
-	}
+        service.updateUser(user);
 
-	@RequestMapping(value = { "/delete-{name}-user" }, method = RequestMethod.GET)
-	public String deleteUser(@PathVariable String name) {
-		service.deleteUserByName(name);
-		return "redirect:/list";
-	}
+        model.addAttribute("success", "User " + user.getName() + " updated successfully");
+        return "success";
+    }
 
-	@RequestMapping("searchUser")
-	public String searchUser(ModelMap model, @RequestParam("searchName") String searchName){
-		List<User> usersList = service.findUsersByName(searchName);
-		model.addAttribute("users", usersList);
-		return "allusers";
+    @RequestMapping(value = {"/delete-{name}-user"}, method = RequestMethod.GET)
+    public String deleteUser(@PathVariable String name) {
+        service.deleteUserByName(name);
+        return "redirect:/list";
+    }
 
-	}
+    @RequestMapping("searchUser")
+    public String searchUser(ModelMap model, @RequestParam("searchName") String searchName) {
+        List<User> usersList = service.findUsersByName(searchName);
+        model.addAttribute("users", usersList);
+        return "allusers";
+
+    }
 }

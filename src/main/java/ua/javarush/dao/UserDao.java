@@ -6,15 +6,15 @@ import ua.javarush.model.User;
 
 public interface UserDao {
 
-	User findById(int id);
+    User findById(int id);
 
-	void saveUser(User user);
-	
-	void deleteUserByName(String name);
-	
-	List<User> findAllUsers();
+    void saveUser(User user);
 
-	User findUserByName(String name);
+    void deleteUserByName(String name);
+
+    List<User> findAllUsers();
+
+    User findUserByName(String name);
 
     List<User> findUsersByName(String userName);
 }
