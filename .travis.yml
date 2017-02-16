@@ -10,7 +10,6 @@ cache:
 # https://docs.travis-ci.com/user/database-setup/#PostgreSQL
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
-  - mysql -e 'create user "user"; grant all privileges on database test to "user"'
 
 # https://docs.travis-ci.com/user/notifications#Configuring-email-notifications
 notifications:
