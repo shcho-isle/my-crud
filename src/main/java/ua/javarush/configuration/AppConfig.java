@@ -28,7 +28,7 @@ public class AppConfig {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setCacheSeconds(60);
+        messageSource.setCacheSeconds(0);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setBasenames("classpath:messages");
         messageSource.setFallbackToSystemLocale(false);

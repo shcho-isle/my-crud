@@ -1,12 +1,16 @@
 package ua.javarush.model;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import java.sql.Timestamp;
 
@@ -18,14 +22,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(min = 3, max = 25)
+    @Length(min = 3, max = 25)
     @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9-_\\.]*$")
     @Column(name = "NAME", unique = true, nullable = false)
     private String name;
 
     @NotNull
-    @Min(1)
-    @Max(120)
+    @Range(min = 1, max = 120)
     @Column(name = "AGE", nullable = false)
     private Integer age;
 

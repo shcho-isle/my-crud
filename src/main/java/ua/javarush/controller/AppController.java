@@ -2,6 +2,7 @@ package ua.javarush.controller;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.validation.Valid;
 
@@ -25,11 +26,9 @@ import ua.javarush.service.UserService;
 public class AppController {
     private static final int MAX_ROWS_PER_PAGE = 15;
 
-    private final
-    UserService service;
+    private final UserService service;
 
-    private final
-    MessageSource messageSource;
+    private final MessageSource messageSource;
 
     @Autowired
     public AppController(UserService service, MessageSource messageSource) {
@@ -71,14 +70,14 @@ public class AppController {
 
     @RequestMapping(value = {"/new"}, method = RequestMethod.POST)
     public String saveUser(@Valid User user, BindingResult result,
-                           ModelMap model) {
+                           ModelMap model, Locale locale) {
 
         if (result.hasErrors()) {
             return "registration";
         }
 
         if (!service.isUserNameUnique(user.getId(), user.getName())) {
-            FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, Locale.getDefault()));
+            FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, locale));
             result.addError(nameError);
             return "registration";
         }
