@@ -28,21 +28,21 @@
 
 <body>
 <div class="text">
-    <h2><spring:message code="users.title"/></h2>
+    <h2><spring:message code="allusers.title"/></h2>
 
     <form action="searchUser">
-        Search by name:
+        <spring:message code="allusers.searchlabel"/>
         <input type="text" name="searchName" maxlength='25' title="Search by name:">
-        <input class="btn btn-xs" type='submit' value='Search'/>
+        <input class="btn btn-xs" type='submit' value='<spring:message code="allusers.searchbutton"/>'/>
     </form>
 
     <table>
         <tr>
             <td>ID</td>
-            <td>NAME</td>
-            <td>Age</td>
-            <td>isAdmin</td>
-            <td>Created Date</td>
+            <td><spring:message code="allusers.name"/></td>
+            <td><spring:message code="allusers.age"/></td>
+            <td><spring:message code="allusers.admin"/></td>
+            <td><spring:message code="allusers.date"/></td>
             <td></td>
         </tr>
         <c:forEach items="${users}" var="user">
@@ -56,7 +56,7 @@
                     </c:if>
                 </td>
                 <td><fmt:formatDate value="${user.createdDate}" type="DATE"/></td>
-                <td><a href="<c:url value='/delete-${user.name}-user' />">delete</a></td>
+                <td><a href="<c:url value='/delete-${user.name}-user' />"><spring:message code="allusers.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
@@ -78,7 +78,7 @@
 
     <br/>
     <br/>
-    <a href="<c:url value='/new' />">Add New User</a>
+    <a href="<c:url value='/new' />"><spring:message code="allusers.add"/></a>
 </div>
 </body>
 </html>
