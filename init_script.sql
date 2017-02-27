@@ -28,7 +28,7 @@ CREATE PROCEDURE load_user_test_data()
       INSERT INTO user (name, age, is_admin, created_date) VALUES (
         CONCAT('name', v_counter)
         , FLOOR(RAND() * 120) + 1
-        , FLOOR(RAND() * 1.1)
+        , FLOOR(RAND() * 1.3)
         , (SELECT from_unixtime(unix_timestamp('2000-01-01') + floor(rand() * 510000000))));
       SET v_counter = v_counter + 1;
     END WHILE;

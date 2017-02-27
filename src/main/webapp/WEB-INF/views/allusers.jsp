@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>University Enrollments</title>
+    <title><spring:message code="jsp.userstitle"/></title>
 
     <style>
         tr:first-child {
@@ -28,21 +28,21 @@
 
 <body>
 <div class="text">
-    <h2><spring:message code="allusers.title"/></h2>
+    <h2><spring:message code="jsp.userstitle"/></h2>
 
     <form action="searchUser">
-        <spring:message code="allusers.searchlabel"/>
+        <spring:message code="jsp.searchlabel"/>
         <input type="text" name="searchName" maxlength='25' title="Search by name:">
-        <input class="btn btn-xs" type='submit' value='<spring:message code="allusers.searchbutton"/>'/>
+        <input class="btn btn-xs" type='submit' value='<spring:message code="jsp.searchbutton"/>'/>
     </form>
 
     <table>
         <tr>
             <td>ID</td>
-            <td><spring:message code="allusers.name"/></td>
-            <td><spring:message code="allusers.age"/></td>
-            <td><spring:message code="allusers.admin"/></td>
-            <td><spring:message code="allusers.date"/></td>
+            <td><spring:message code="jsp.name"/></td>
+            <td><spring:message code="jsp.age"/></td>
+            <td><spring:message code="jsp.admin"/></td>
+            <td><spring:message code="jsp.date"/></td>
             <td></td>
         </tr>
         <c:forEach items="${users}" var="user">
@@ -52,11 +52,11 @@
                 <td>${user.age}</td>
                 <td>
                     <c:if test="${user.admin==true}">
-                        admin
+                        <spring:message code="jsp.isadmin"/>
                     </c:if>
                 </td>
                 <td><fmt:formatDate value="${user.createdDate}" type="DATE"/></td>
-                <td><a href="<c:url value='/delete-${user.name}-user' />"><spring:message code="allusers.delete"/></a></td>
+                <td><a href="<c:url value='/delete-${user.name}-user' />"><spring:message code="jsp.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
@@ -78,7 +78,7 @@
 
     <br/>
     <br/>
-    <a href="<c:url value='/new' />"><spring:message code="allusers.add"/></a>
+    <a href="<c:url value='/new' />"><spring:message code="jsp.add"/></a>
 </div>
 </body>
 </html>

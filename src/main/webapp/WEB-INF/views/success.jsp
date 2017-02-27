@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Registration Confirmation Page</title>
+    <title><spring:message code="jsp.confirmation"/></title>
 </head>
 <body>
-message : ${success}
+<spring:message code="jsp.message"/> : ${success}
 <br/>
 <br/>
-Go back to <a href="<c:url value='/list' />">List of All Users</a>
+<spring:message code="jsp.goback"/> <a href="<c:url value='/list' />"><spring:message code="jsp.listlink"/></a>
 
 </body>
 
