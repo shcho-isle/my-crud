@@ -4,13 +4,13 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>ua.javarush</groupId>
-    <artifactId>TestTaskForRealProject</artifactId>
+    <artifactId>MyCRUD</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
-    <name>TestTaskForRealProject</name>
+    <name>MyCRUD</name>
 
     <properties>
-        <springframework.version>4.0.6.RELEASE</springframework.version>
+        <springframework.version>4.3.6.RELEASE</springframework.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.version>5.1.31</mysql.version>
         <testng.version>6.9.4</testng.version>
@@ -109,13 +109,13 @@
                     <version>2.4</version>
                     <configuration>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                        <warName>TestTaskForRealProject</warName>
+                        <warName>MyCRUD</warName>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <finalName>TestTaskForRealProject</finalName>
+        <finalName>MyCRUD</finalName>
     </build>
 </project>
 
