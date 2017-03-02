@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.context.MessageSource;
@@ -20,6 +22,8 @@ import ua.javarush.service.UserService;
 @Controller
 @RequestMapping("/")
 public class AppController {
+    protected final Logger log = LoggerFactory.getLogger(getClass());
+
     private static final int MAX_ROWS_PER_PAGE = 15;
 
     private final UserService service;
@@ -34,8 +38,8 @@ public class AppController {
 
     @GetMapping(value = {"/", "/list"})
     public String listUsers(ModelMap model, @RequestParam(required = false) Integer page) {
-
         List<User> users = service.findAllUsers();
+        log.info("listUsers");
         Integer currentPage = page;
 
         PagedListHolder<User> pagedListHolder = new PagedListHolder<User>(users);
@@ -79,6 +83,7 @@ public class AppController {
         }
 
         service.saveUser(user);
+        log.info("save " + user);
 
         model.addAttribute("success", messageSource.getMessage("jsp.registered", new String[]{user.getName()}, locale));
         return "success";
@@ -107,6 +112,7 @@ public class AppController {
         }
 
         service.updateUser(user);
+        log.info("update " + user);
 
         model.addAttribute("success", messageSource.getMessage("jsp.updated", new String[]{user.getName()}, locale));
         return "success";
@@ -115,6 +121,7 @@ public class AppController {
     @GetMapping("/delete-{name}-user")
     public String deleteUser(@PathVariable String name) {
         service.deleteUserByName(name);
+        log.info("delete " + name);
         return "redirect:/list";
     }
 
@@ -122,6 +129,7 @@ public class AppController {
     public String searchUser(ModelMap model, @RequestParam("searchName") String searchName) {
         List<User> usersList = service.findUsersByName(searchName);
         model.addAttribute("users", usersList);
+        log.info("searchUser " + searchName);
         return "allusers";
 
     }
