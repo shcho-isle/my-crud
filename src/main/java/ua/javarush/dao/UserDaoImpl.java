@@ -14,32 +14,38 @@ import ua.javarush.model.User;
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
+    @Override
     public User findById(int id) {
         return getByKey(id);
     }
 
+    @Override
     public void saveUser(User user) {
         persist(user);
     }
 
+    @Override
     public void deleteUserByName(String name) {
         Query query = getSession().createSQLQuery("delete from USER where name = :name");
         query.setString("name", name);
         query.executeUpdate();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<User> findAllUsers() {
         Criteria criteria = createEntityCriteria();
         return (List<User>) criteria.list();
     }
 
+    @Override
     public User findUserByName(String name) {
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("name", name));
         return (User) criteria.uniqueResult();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<User> findUsersByName(String userName) {
         String query = "SELECT t.* FROM User t WHERE t.name like '%" + userName + "%'";
