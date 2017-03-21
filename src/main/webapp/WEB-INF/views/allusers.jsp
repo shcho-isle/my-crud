@@ -47,9 +47,9 @@
         </tr>
         <c:forEach items="${users}" var="user">
             <tr>
-                <td>${user.id}</td>
-                <td><a href="<c:url value='/edit-${user.name}-user' />">${user.name}</a></td>
-                <td>${user.age}</td>
+                <td><c:out value="${user.id}"/></td>
+                <td><a href="<c:url value='/edit-${user.name}-user' />"><c:out value="${user.name}"/></a></td>
+                <td><c:out value="${user.age}"/></td>
                 <td>
                     <c:if test="${user.admin==true}">
                         <spring:message code="jsp.isadmin"/>
@@ -65,13 +65,13 @@
     <c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
         <c:choose>
             <c:when test="${page == i.index}">
-                <span>${i.index}</span>
+                <span><c:out value="${i.index}"/></span>
             </c:when>
             <c:otherwise>
                 <c:url value="/" var="url">
                     <c:param name="page" value="${i.index}"/>
                 </c:url>
-                <a href='<c:out value="${url}" />'>${i.index}</a>
+                <a href='<c:out value="${url}" />'><c:out value="${i.index}"/></a>
             </c:otherwise>
         </c:choose>
     </c:forEach>
