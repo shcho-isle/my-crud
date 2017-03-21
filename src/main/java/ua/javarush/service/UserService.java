@@ -2,23 +2,56 @@ package ua.javarush.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import ua.javarush.dao.UserDao;
 import ua.javarush.model.User;
 
-public interface UserService {
+@Service
+@Transactional
+public class UserService {
 
-    User findById(int id);
+    @Autowired
+    private UserDao dao;
 
-    void saveUser(User user);
+    public User findById(int id) {
+        return dao.findById(id);
+    }
 
-    void updateUser(User user);
+    public void saveUser(User user) {
+        dao.saveUser(user);
+    }
 
-    void deleteUserByName(String name);
+    public void updateUser(User user) {
+        User entity = dao.findById(user.getId());
+        if (entity != null) {
+            entity.setName(user.getName());
+            entity.setAge(user.getAge());
+            entity.setAdmin(user.isAdmin());
+        }
+    }
 
-    List<User> findAllUsers();
+    public void deleteUserByName(String name) {
+        dao.deleteUserByName(name);
+    }
 
-    User findUserByName(String name);
+    public List<User> findAllUsers() {
+        return dao.findAllUsers();
+    }
 
-    boolean isUserNameUnique(Integer id, String name);
+    public User findUserByName(String name) {
+        return dao.findUserByName(name);
+    }
 
-    List<User> findUsersByName(String userName);
+    public boolean isUserNameUnique(Integer id, String name) {
+        User user = findUserByName(name);
+        return (user == null || ((id != null) && (user.getId() == id)));
+    }
+
+    public List<User> findUsersByName(String userName) {
+        return dao.findUsersByName(userName);
+    }
+
 }

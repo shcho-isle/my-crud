@@ -36,8 +36,7 @@ public class User {
     @Column(name = "is_admin", nullable = false)
     private boolean admin;
 
-    @NotNull
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Timestamp createdDate;
 
