@@ -1,5 +1,6 @@
 package ua.javarush.model;
 
+import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -24,18 +25,19 @@ public class User {
 
     @Length(min = 3, max = 25)
     @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9-_\\.]*$")
-    @Column(name = "NAME", unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @NotNull
     @Range(min = 1, max = 120)
-    @Column(name = "AGE", nullable = false)
+    @Column(name = "age", nullable = false)
     private Integer age;
 
-    @Column(name = "IS_ADMIN", nullable = false)
+    @Column(name = "is_admin", nullable = false)
     private boolean admin;
 
-    @Column(name = "CREATED_DATE")
+    @NotNull
+    @Column(name = "created_date", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Timestamp createdDate;
 
@@ -81,51 +83,29 @@ public class User {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
+        return getId();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-
-        if (obj == null) {
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
             return false;
         }
-
-        if (!(obj instanceof User)) {
-            return false;
-        }
-
-        User other = (User) obj;
-        if (id != other.id) {
-            return false;
-        }
-
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        return true;
+        User that = (User) o;
+        return getId() == that.getId();
     }
 
     @Override
     public String toString() {
-        String isAdmin = "";
-        if (admin) {
-            isAdmin = ", admin";
-        }
-        return "User [id=" + id +
-                ", name=" + name +
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
-                isAdmin + "]";
+                ", admin=" + admin +
+                ", createdDate=" + createdDate +
+                '}';
     }
 }
