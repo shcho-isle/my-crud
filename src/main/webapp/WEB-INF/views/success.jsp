@@ -12,7 +12,7 @@
 <spring:message code="jsp.message"/> : ${success}
 <br/>
 <br/>
-<spring:message code="jsp.goback"/> <a href="<c:url value='/list' />"><spring:message code="jsp.listlink"/></a>
+<spring:message code="jsp.go_back"/> <a href="<c:url value='/list' />"><spring:message code="jsp.list_link"/></a>
 
 </body>
 

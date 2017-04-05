@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><spring:message code="jsp.userstitle"/></title>
+    <title><spring:message code="jsp.users_title"/></title>
 
     <style>
         tr:first-child {
@@ -28,12 +28,12 @@
 
 <body>
 <div class="text">
-    <h2><spring:message code="jsp.userstitle"/></h2>
+    <h2><spring:message code="jsp.users_title"/></h2>
 
     <form action="searchUser">
-        <spring:message code="jsp.searchlabel"/>
+        <spring:message code="jsp.search_label"/>
         <input type="text" name="searchName" maxlength='25' title="Search by name:">
-        <input class="btn btn-xs" type='submit' value='<spring:message code="jsp.searchbutton"/>'/>
+        <input class="btn btn-xs" type='submit' value='<spring:message code="jsp.search_button"/>'/>
     </form>
 
     <table>
@@ -52,7 +52,7 @@
                 <td><c:out value="${user.age}"/></td>
                 <td>
                     <c:if test="${user.admin==true}">
-                        <spring:message code="jsp.isadmin"/>
+                        <spring:message code="jsp.is_admin"/>
                     </c:if>
                 </td>
                 <td><fmt:formatDate value="${user.createdDate}" type="DATE"/></td>

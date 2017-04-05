@@ -7,7 +7,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><spring:message code="jsp.regtab"/></title>
+    <title><spring:message code="jsp.reg_tab"/></title>
 
     <style>
 
@@ -20,7 +20,7 @@
 
 <body>
 
-<h2><spring:message code="jsp.regtitle"/></h2>
+<h2><spring:message code="jsp.reg_title"/></h2>
 
 <form:form method="POST" modelAttribute="user">
     <form:input type="hidden" path="id" id="id"/>
@@ -44,11 +44,11 @@
         </tr>
 
         <tr>
-            <td><input type="submit" value='<spring:message code="jsp.savebutton"/>'/></td>
+            <td><input type="submit" value='<spring:message code="jsp.save_button"/>'/></td>
         </tr>
     </table>
 </form:form>
 <br/>
-<spring:message code="jsp.goback"/> <a href="<c:url value='/list' />"><spring:message code="jsp.listlink"/></a>
+<spring:message code="jsp.go_back"/> <a href="<c:url value='/list' />"><spring:message code="jsp.list_link"/></a>
 </body>
 </html>

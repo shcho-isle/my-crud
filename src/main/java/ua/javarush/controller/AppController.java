@@ -22,7 +22,7 @@ import ua.javarush.service.UserService;
 @Controller
 @RequestMapping("/")
 public class AppController {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private static final int MAX_ROWS_PER_PAGE = 15;
 
@@ -42,7 +42,7 @@ public class AppController {
         log.info("listUsers");
         Integer currentPage = page;
 
-        PagedListHolder<User> pagedListHolder = new PagedListHolder<User>(users);
+        PagedListHolder<User> pagedListHolder = new PagedListHolder<>(users);
         pagedListHolder.setPageSize(MAX_ROWS_PER_PAGE);
         model.addAttribute("maxPages", pagedListHolder.getPageCount());
 
@@ -58,7 +58,7 @@ public class AppController {
             model.addAttribute("users", pagedListHolder.getPageList());
         }
 
-        return "allusers";
+        return "allUsers";
     }
 
     @GetMapping("/new")
@@ -76,17 +76,16 @@ public class AppController {
             return "registration";
         }
 
-        if (!service.isUserNameUnique(user.getId(), user.getName())) {
-            FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, locale));
-            result.addError(nameError);
-            return "registration";
+        if (service.isUserNameUnique(user.getId(), user.getName())) {
+            service.saveUser(user);
+            log.info("save " + user);
+            model.addAttribute("success", messageSource.getMessage("jsp.registered", new String[]{user.getName()}, locale));
+            return "success";
         }
 
-        service.saveUser(user);
-        log.info("save " + user);
-
-        model.addAttribute("success", messageSource.getMessage("jsp.registered", new String[]{user.getName()}, locale));
-        return "success";
+        FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, locale));
+        result.addError(nameError);
+        return "registration";
     }
 
     @GetMapping("/edit-{name}-user")
@@ -105,17 +104,16 @@ public class AppController {
             return "registration";
         }
 
-        if (!service.isUserNameUnique(user.getId(), user.getName())) {
-            FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, locale));
-            result.addError(nameError);
-            return "registration";
+        if (service.isUserNameUnique(user.getId(), user.getName())) {
+            service.updateUser(user);
+            log.info("update " + user);
+            model.addAttribute("success", messageSource.getMessage("jsp.updated", new String[]{user.getName()}, locale));
+            return "success";
         }
 
-        service.updateUser(user);
-        log.info("update " + user);
-
-        model.addAttribute("success", messageSource.getMessage("jsp.updated", new String[]{user.getName()}, locale));
-        return "success";
+        FieldError nameError = new FieldError("user", "name", messageSource.getMessage("non.unique.name", new String[]{user.getName()}, locale));
+        result.addError(nameError);
+        return "registration";
     }
 
     @GetMapping("/delete-{name}-user")
@@ -130,7 +128,7 @@ public class AppController {
         List<User> usersList = service.findUsersByName(searchName);
         model.addAttribute("users", usersList);
         log.info("searchUser " + searchName);
-        return "allusers";
+        return "allUsers";
 
     }
 }

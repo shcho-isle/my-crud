@@ -13,11 +13,11 @@ import ua.javarush.model.User;
 @Transactional
 public class UserService {
 
-    @Autowired
-    private UserDao dao;
+    private final UserDao dao;
 
-    public User findById(int id) {
-        return dao.findById(id);
+    @Autowired
+    public UserService(UserDao dao) {
+        this.dao = dao;
     }
 
     public void saveUser(User user) {

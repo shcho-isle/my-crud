@@ -24,7 +24,7 @@ public class User {
     private int id;
 
     @Length(min = 3, max = 25)
-    @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9-_\\.]*$")
+    @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9-_.]*$")
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
@@ -81,20 +81,27 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
-        return getId();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (admin != user.admin) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (age != null ? !age.equals(user.age) : user.age != null) return false;
+        return createdDate != null ? createdDate.equals(user.createdDate) : user.createdDate == null;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
-            return false;
-        }
-        User that = (User) o;
-        return getId() == that.getId();
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (admin ? 1 : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        return result;
     }
 
     @Override

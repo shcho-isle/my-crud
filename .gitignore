@@ -1,7 +1,5 @@
 .idea
 *.iml
 out
-src/main/webapp/META-INF/
-src/main/webapp/WEB-INF/web.xml
 target/
 log
