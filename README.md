@@ -1,6 +1,6 @@
 #### CRUD application
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/519be71d86c8494fb7043780270026c0)](https://www.codacy.com/app/pavlo-plynko/MyCRUD?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=shcho-isle/MyCRUD&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3ba17f27c6b24685a86afd7e59add31e)](https://www.codacy.com/app/pavlo-plynko/my-crud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=shcho-isle/my-crud&amp;utm_campaign=Badge_Grade)
 [![Dependency Status](https://dependencyci.com/github/shcho-isle/my-crud/badge)](https://dependencyci.com/github/shcho-isle/my-crud)
 [![Build Status](https://travis-ci.org/shcho-isle/my-crud.svg?branch=master)](https://travis-ci.org/shcho-isle/my-crud)
 
