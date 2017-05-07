@@ -1,6 +1,5 @@
 package ua.javarush.model;
 
-import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
