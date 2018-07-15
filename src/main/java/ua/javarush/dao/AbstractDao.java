@@ -1,14 +1,14 @@
 package ua.javarush.dao;
 
-import java.io.Serializable;
-
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
-
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 public abstract class AbstractDao<K extends Serializable, T> {
 
@@ -34,8 +34,9 @@ public abstract class AbstractDao<K extends Serializable, T> {
         getSession().persist(entity);
     }
 
-    protected Criteria createEntityCriteria() {
-        return getSession().createCriteria(persistentClass);
+    protected CriteriaQuery<T> createEntityCriteriaQuery() {
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        return builder.createQuery(persistentClass);
     }
 
     @SuppressWarnings("rawtypes")

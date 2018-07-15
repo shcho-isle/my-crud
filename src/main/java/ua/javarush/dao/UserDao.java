@@ -1,15 +1,15 @@
 package ua.javarush.dao;
 
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ua.javarush.model.User;
+
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.query.Query;
-import org.springframework.stereotype.Repository;
-
-import org.springframework.transaction.annotation.Transactional;
-import ua.javarush.model.User;
 
 @Repository
 @Transactional
@@ -38,10 +38,12 @@ public class UserDao extends AbstractDao<Integer, User> {
         query.executeUpdate();
     }
 
-    @SuppressWarnings("unchecked")
     public List<User> getAll() {
-        Criteria criteria = createEntityCriteria();
-        return (List<User>) criteria.list();
+        CriteriaQuery<User> criteria = createEntityCriteriaQuery();
+        Root<User> contactRoot = criteria.from(User.class);
+        criteria.select(contactRoot);
+
+        return getSession().createQuery(criteria).getResultList();
     }
 
     @SuppressWarnings("unchecked")
