@@ -20,12 +20,12 @@ public class UserService {
         this.dao = dao;
     }
 
-    public void saveUser(User user) {
-        dao.saveUser(user);
+    public void save(User user) {
+        dao.save(user);
     }
 
-    public void updateUser(User user) {
-        User entity = dao.findById(user.getId());
+    public void update(User user) {
+        User entity = dao.get(user.getId());
         if (entity != null) {
             entity.setName(user.getName());
             entity.setAge(user.getAge());
@@ -33,25 +33,25 @@ public class UserService {
         }
     }
 
-    public void deleteUserByName(String name) {
-        dao.deleteUserByName(name);
+    public void deleteByName(String name) {
+        dao.deleteByName(name);
     }
 
-    public List<User> findAllUsers() {
-        return dao.findAllUsers();
+    public List<User> getAll() {
+        return dao.getAll();
     }
 
-    public User findUserByName(String name) {
-        return dao.findUserByName(name);
+    public User getByName(String name) {
+        return dao.getByName(name);
     }
 
     public boolean isUserNameUnique(Integer id, String name) {
-        User user = findUserByName(name);
-        return (user == null || ((id != null) && (user.getId() == id)));
+        User user = getByName(name);
+        return (user == null || ((id != null) && (id.equals(user.getId()))));
     }
 
-    public List<User> findUsersByName(String userName) {
-        return dao.findUsersByName(userName);
+    public List<User> findByName(String userName) {
+        return dao.findByName(userName);
     }
 
 }

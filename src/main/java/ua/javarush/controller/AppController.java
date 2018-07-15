@@ -37,9 +37,9 @@ public class AppController {
     }
 
     @GetMapping(value = {"/", "/list"})
-    public String listUsers(ModelMap model, @RequestParam(required = false) Integer page) {
-        List<User> users = service.findAllUsers();
-        log.info("listUsers");
+    public String getAll(ModelMap model, @RequestParam(required = false) Integer page) {
+        List<User> users = service.getAll();
+        log.info("getAllUsers");
         Integer currentPage = page;
 
         PagedListHolder<User> pagedListHolder = new PagedListHolder<>(users);
@@ -69,15 +69,15 @@ public class AppController {
     }
 
     @PostMapping("/new")
-    public String saveUser(@Valid User user, BindingResult result,
-                           ModelMap model, Locale locale) {
+    public String save(@Valid User user, BindingResult result,
+                       ModelMap model, Locale locale) {
 
         if (result.hasErrors()) {
             return "registration";
         }
 
         if (service.isUserNameUnique(user.getId(), user.getName())) {
-            service.saveUser(user);
+            service.save(user);
             log.info("save {}", user);
             model.addAttribute("success", messageSource.getMessage("jsp.registered", new String[]{user.getName()}, locale));
             return "success";
@@ -89,24 +89,24 @@ public class AppController {
     }
 
     @GetMapping("/edit-{name}-user")
-    public String editUser(@PathVariable String name, ModelMap model) {
-        User user = service.findUserByName(name);
+    public String getByName(@PathVariable String name, ModelMap model) {
+        User user = service.getByName(name);
         model.addAttribute("user", user);
         log.info("get {}", user);
         return "registration";
     }
 
     @PostMapping("/edit-{name}-user")
-    public String updateUser(@Valid User user, BindingResult result,
-                             ModelMap model, @PathVariable String name,
-                             Locale locale) {
+    public String update(@Valid User user, BindingResult result,
+                         ModelMap model, @PathVariable String name,
+                         Locale locale) {
 
         if (result.hasErrors()) {
             return "registration";
         }
 
         if (service.isUserNameUnique(user.getId(), user.getName())) {
-            service.updateUser(user);
+            service.update(user);
             log.info("update {}", user);
             model.addAttribute("success", messageSource.getMessage("jsp.updated", new String[]{user.getName()}, locale));
             return "success";
@@ -118,17 +118,17 @@ public class AppController {
     }
 
     @GetMapping("/delete-{name}-user")
-    public String deleteUser(@PathVariable String name) {
-        service.deleteUserByName(name);
+    public String deleteByName(@PathVariable String name) {
+        service.deleteByName(name);
         log.info("delete {}", name);
         return "redirect:/list";
     }
 
     @RequestMapping("searchUser")
-    public String searchUser(ModelMap model, @RequestParam("searchName") String searchName) {
-        List<User> usersList = service.findUsersByName(searchName);
+    public String findByName(ModelMap model, @RequestParam("searchName") String searchName) {
+        List<User> usersList = service.findByName(searchName);
         model.addAttribute("users", usersList);
-        log.info("searchUser {}", searchName);
+        log.info("findUsersByName {}", searchName);
         return "allUsers";
     }
 }

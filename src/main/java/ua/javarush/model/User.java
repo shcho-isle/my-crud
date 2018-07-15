@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user")
@@ -20,7 +21,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Length(min = 3, max = 25)
     @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9-_.]*$")
@@ -39,11 +40,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Timestamp createdDate;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -83,24 +84,18 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
-        if (id != user.id) return false;
-        if (admin != user.admin) return false;
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        if (age != null ? !age.equals(user.age) : user.age != null) return false;
-        return createdDate != null ? createdDate.equals(user.createdDate) : user.createdDate == null;
+        return admin == user.admin &&
+                Objects.equals(id, user.id) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(age, user.age) &&
+                Objects.equals(createdDate, user.createdDate);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (admin ? 1 : 0);
-        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, name, age, admin, createdDate);
     }
 
     @Override
