@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +24,7 @@ public class UserDao extends AbstractDao<Integer, User> {
 
     public void deleteUserByName(String name) {
         Query query = getSession().createSQLQuery("delete from USER where name = :name");
-        query.setString("name", name);
+        query.setParameter("name", name);
         query.executeUpdate();
     }
 

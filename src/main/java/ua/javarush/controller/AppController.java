@@ -50,7 +50,7 @@ public class AppController {
             currentPage = 1;
         }
         model.addAttribute("page", currentPage);
-        if (currentPage < 1 || currentPage > pagedListHolder.getPageCount()) {
+        if (currentPage > pagedListHolder.getPageCount()) {
             pagedListHolder.setPage(0);
             model.addAttribute("users", pagedListHolder.getPageList());
         } else if (currentPage <= pagedListHolder.getPageCount()) {
@@ -78,7 +78,7 @@ public class AppController {
 
         if (service.isUserNameUnique(user.getId(), user.getName())) {
             service.saveUser(user);
-            log.info("save " + user);
+            log.info("save {}", user);
             model.addAttribute("success", messageSource.getMessage("jsp.registered", new String[]{user.getName()}, locale));
             return "success";
         }
@@ -92,6 +92,7 @@ public class AppController {
     public String editUser(@PathVariable String name, ModelMap model) {
         User user = service.findUserByName(name);
         model.addAttribute("user", user);
+        log.info("get {}", user);
         return "registration";
     }
 
@@ -106,7 +107,7 @@ public class AppController {
 
         if (service.isUserNameUnique(user.getId(), user.getName())) {
             service.updateUser(user);
-            log.info("update " + user);
+            log.info("update {}", user);
             model.addAttribute("success", messageSource.getMessage("jsp.updated", new String[]{user.getName()}, locale));
             return "success";
         }
@@ -119,7 +120,7 @@ public class AppController {
     @GetMapping("/delete-{name}-user")
     public String deleteUser(@PathVariable String name) {
         service.deleteUserByName(name);
-        log.info("delete " + name);
+        log.info("delete {}", name);
         return "redirect:/list";
     }
 
@@ -127,8 +128,7 @@ public class AppController {
     public String searchUser(ModelMap model, @RequestParam("searchName") String searchName) {
         List<User> usersList = service.findUsersByName(searchName);
         model.addAttribute("users", usersList);
-        log.info("searchUser " + searchName);
+        log.info("searchUser {}", searchName);
         return "allUsers";
-
     }
 }

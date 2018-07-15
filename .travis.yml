@@ -8,5 +8,9 @@ cache:
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 
-notifications:
-  email: false
+branches:
+  only:
+  - master
+
+#notifications:
+#  email: false
