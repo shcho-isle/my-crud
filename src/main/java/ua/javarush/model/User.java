@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -24,8 +23,7 @@ public class User {
     private Integer id;
 
     @Length(min = 3, max = 25)
-    @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9-_.]*$")
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull

@@ -6,12 +6,13 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.query.Query;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.transaction.annotation.Transactional;
 import ua.javarush.model.User;
 
 @Repository
+@Transactional
 public class UserDao extends AbstractDao<Integer, User> {
 
     public User get(Integer id) {
@@ -22,9 +23,18 @@ public class UserDao extends AbstractDao<Integer, User> {
         persist(user);
     }
 
-    public void deleteByName(String name) {
-        Query query = getSession().createSQLQuery("delete from USER where name = :name");
-        query.setParameter("name", name);
+    public void update(User user) {
+        User entity = get(user.getId());
+        if (entity != null) {
+            entity.setName(user.getName());
+            entity.setAge(user.getAge());
+            entity.setAdmin(user.isAdmin());
+        }
+    }
+
+    public void delete(Integer id) {
+        Query query = getSession().createSQLQuery("delete from USER where id = :id");
+        query.setParameter("id", id);
         query.executeUpdate();
     }
 
@@ -32,12 +42,6 @@ public class UserDao extends AbstractDao<Integer, User> {
     public List<User> getAll() {
         Criteria criteria = createEntityCriteria();
         return (List<User>) criteria.list();
-    }
-
-    public User getByName(String name) {
-        Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("name", name));
-        return (User) criteria.uniqueResult();
     }
 
     @SuppressWarnings("unchecked")

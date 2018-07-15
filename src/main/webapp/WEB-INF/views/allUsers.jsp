@@ -47,8 +47,8 @@
         </tr>
         <c:forEach items="${users}" var="user">
             <tr>
-                <td><c:out value="${user.id}"/></td>
-                <td><a href="<c:url value='/edit-${user.name}-user' />"><c:out value="${user.name}"/></a></td>
+                <td><a href="<c:url value='/edit-user-No.${user.id}' />"><c:out value="${user.id}"/></a></td>
+                <td><a href="<c:url value='/edit-user-No.${user.id}' />"><c:out value="${user.name}"/></a></td>
                 <td><c:out value="${user.age}"/></td>
                 <td>
                     <c:if test="${user.admin==true}">
@@ -56,7 +56,7 @@
                     </c:if>
                 </td>
                 <td><fmt:formatDate value="${user.createdDate}" type="DATE"/></td>
-                <td><a href="<c:url value='/delete-${user.name}-user' />"><spring:message code="jsp.delete"/></a></td>
+                <td><a href="<c:url value='/delete-${user.id}-user' />"><spring:message code="jsp.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
