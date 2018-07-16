@@ -1,7 +1,6 @@
 package ua.javarush.controller;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -27,12 +26,9 @@ public class AppController {
 
     private final UserDao dao;
 
-    private final MessageSource messageSource;
-
     @Autowired
-    public AppController(UserDao dao, MessageSource messageSource) {
+    public AppController(UserDao dao) {
         this.dao = dao;
-        this.messageSource = messageSource;
     }
 
     @GetMapping(value = {"/", "/list"})
@@ -68,8 +64,7 @@ public class AppController {
     }
 
     @PostMapping("/new")
-    public String save(@Valid User user, BindingResult result,
-                       ModelMap model, Locale locale) {
+    public String save(@Valid User user, BindingResult result, ModelMap model) {
 
         if (result.hasErrors()) {
             return "registration";
@@ -77,7 +72,8 @@ public class AppController {
 
         dao.save(user);
         log.info("save {}", user);
-        model.addAttribute("success", messageSource.getMessage("jsp.registered", new String[]{user.getName()}, locale));
+        model.addAttribute("isNew", true);
+        model.addAttribute("userName", user.getName());
         return "success";
     }
 
@@ -91,8 +87,7 @@ public class AppController {
 
     @PostMapping("/edit-user-No.{id}")
     public String update(@Valid User user, BindingResult result,
-                         ModelMap model, @PathVariable Integer id,
-                         Locale locale) {
+                         ModelMap model, @PathVariable Integer id) {
 
         if (result.hasErrors()) {
             return "registration";
@@ -100,7 +95,8 @@ public class AppController {
 
         dao.update(user);
         log.info("update {}", user);
-        model.addAttribute("success", messageSource.getMessage("jsp.updated", new String[]{user.getName()}, locale));
+        model.addAttribute("isNew", false);
+        model.addAttribute("userName", user.getName());
         return "success";
     }
 

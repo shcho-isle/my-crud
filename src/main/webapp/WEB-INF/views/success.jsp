@@ -8,7 +8,7 @@
     <title><spring:message code="jsp.confirmation"/></title>
 </head>
 <body>
-<spring:message code="jsp.message"/> : ${success}
+<spring:message code="${isNew ? 'jsp.registered' : 'jsp.updated'}" arguments="${userName}"/>
 <br/>
 <br/>
 <spring:message code="jsp.go_back"/> <a href="<c:url value='/list' />"><spring:message code="jsp.list_link"/></a>
