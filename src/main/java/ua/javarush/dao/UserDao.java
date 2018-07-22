@@ -1,70 +1,52 @@
 package ua.javarush.dao;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.javarush.model.User;
 
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 @Transactional
-public class UserDao extends AbstractDao<Integer, User> {
+public class UserDao {
 
-    public User get(Integer id) {
-        return getByKey(id);
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    protected Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 
-    public void save(User user) {
-        persist(user);
+    public User get(Long id) {
+        return getSession().get(User.class, id);
     }
 
     public void update(User user) {
-        User entity = get(user.getId());
-        if (entity != null) {
-            entity.setName(user.getName());
-            entity.setAge(user.getAge());
-            entity.setAdmin(user.isAdmin());
-        }
+        getSession().update(user);
     }
 
-    public void delete(Integer id) {
-        Query query = getSession().createSQLQuery("delete from USER where id = :id");
+    public void save(User user) {
+        getSession().persist(user);
+    }
+
+    public void delete(Long id) {
+        Query query = getSession().createQuery("delete from User where id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }
 
     public List<User> getAll() {
-        CriteriaQuery<User> criteria = createEntityCriteriaQuery();
-        Root<User> contactRoot = criteria.from(User.class);
-        criteria.select(contactRoot);
-
-        return getSession().createQuery(criteria).getResultList();
+        Query<User> query = getSession().createQuery("from User", User.class);
+        return query.getResultList();
     }
 
-    @SuppressWarnings("unchecked")
     public List<User> findByName(String userName) {
-        String query = "SELECT t.* FROM User t WHERE t.name like '%" + userName + "%'";
-        List<Object[]> userObjects = fetchAll(query);
-        List<User> users = new ArrayList<>();
-        for (Object[] userObject : userObjects) {
-            User user = new User();
-            Integer id = (Integer) userObject[0];
-            String name = (String) userObject[1];
-            Integer age = (Integer) userObject[2];
-            boolean admin = (boolean) userObject[3];
-            Timestamp localDate = (Timestamp) userObject[4];
-            user.setId(id);
-            user.setName(name);
-            user.setAge(age);
-            user.setAdmin(admin);
-            user.setCreatedDate(localDate);
-            users.add(user);
-        }
-        return users;
+        Query<User> query = getSession().createQuery("from User where name like :name", User.class);
+        query.setParameter("name", "%" + userName + "%");
+        return query.getResultList();
     }
 }

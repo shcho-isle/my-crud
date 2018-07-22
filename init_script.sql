@@ -5,7 +5,7 @@ USE test;
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE USER (
-  id           INT         NOT NULL UNIQUE AUTO_INCREMENT,
+  id           BIGINT      NOT NULL UNIQUE AUTO_INCREMENT,
   name         VARCHAR(25) NOT NULL,
   age          INT(3)      NOT NULL,
   is_admin     BIT         NOT NULL,

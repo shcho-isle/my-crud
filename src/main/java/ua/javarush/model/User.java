@@ -3,14 +3,8 @@ package ua.javarush.model;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -20,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Length(min = 3, max = 25)
     @Column(name = "name", nullable = false)
@@ -36,13 +30,13 @@ public class User {
 
     @Column(name = "created_date")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Timestamp createdDate;
+    private Timestamp createdDate = new Timestamp(System.currentTimeMillis());
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -92,7 +86,6 @@ public class User {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, name, age, admin, createdDate);
     }
 

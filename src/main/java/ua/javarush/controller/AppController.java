@@ -1,21 +1,18 @@
 package ua.javarush.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import ua.javarush.dao.UserDao;
 import ua.javarush.model.User;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -78,7 +75,7 @@ public class AppController {
     }
 
     @GetMapping("/edit-user-No.{id}")
-    public String get(@PathVariable Integer id, ModelMap model) {
+    public String get(@PathVariable Long id, ModelMap model) {
         User user = dao.get(id);
         model.addAttribute("user", user);
         log.info("get {}", user);
@@ -87,7 +84,7 @@ public class AppController {
 
     @PostMapping("/edit-user-No.{id}")
     public String update(@Valid User user, BindingResult result,
-                         ModelMap model, @PathVariable Integer id) {
+                         ModelMap model) {
 
         if (result.hasErrors()) {
             return "registration";
@@ -101,7 +98,7 @@ public class AppController {
     }
 
     @GetMapping("/delete-{id}-user")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Long id) {
         dao.delete(id);
         log.info("delete {}", id);
         return "redirect:/list";

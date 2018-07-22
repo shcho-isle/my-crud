@@ -17,6 +17,7 @@
 <h2><spring:message code="jsp.reg_title"/></h2>
 <form:form method="POST" modelAttribute="user">
     <form:input type="hidden" path="id" id="id"/>
+    <form:input type="hidden" path="createdDate" id="createdDate"/>
     <table>
         <tr>
             <td><label for="name"><spring:message code="jsp.name"/>: </label></td>
